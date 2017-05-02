@@ -1,5 +1,5 @@
 {
-    "name": "infyom/custom",
+    "name": "marifetler/infyom",
     "type": "library",
     "description": "Infyom custom generator",
     "keywords": ["crud","admin"],
