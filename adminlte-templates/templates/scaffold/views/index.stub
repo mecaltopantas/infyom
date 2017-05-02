@@ -1,0 +1,124 @@
+@extends('layouts.app')
+
+@section('content')
+    <section class="content-header">
+        <h1><i class="fa fa-users"></i>&nbsp; $MODEL_NAME_PLURAL_HUMAN$ &nbsp;&nbsp;
+           <a class="btn btn-sm btn-success" href="{!! route('$ROUTE_NAMED_PREFIX$$MODEL_NAME_PLURAL_CAMEL$.create') !!}">
+            <i class="fa fa-plus-circle"></i> @lang('common.create')
+            </a>
+        </h1>
+        <ol class="breadcrumb">
+          <li><a href="/"><i class="fa fa-dashboard"></i> @lang('common.home_page')</a></li>
+          <li class="active">{{ trans('$MODEL_NAME_HUMAN$/create.$MODEL_NAME_HUMAN$') }} </li>
+        </ol>
+    </section>
+    <div class="content">
+        <div class="clearfix"></div>
+
+        @include('flash::message')
+
+        <div class="clearfix"></div>
+        <div class="box">
+
+        <div class="box-header">
+                <div class="pull-left">
+                  <div class="selected-action" style="display:inline-block;position:relative;">
+                      <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class='fa fa-check-square-o'></i> @lang('common.batch_processing')
+                        <span class="fa fa-caret-down"></span></button>
+                      <ul class="dropdown-menu">
+                        <li><a href="javascript:void(0)" data-name='delete' title="@lang('common.delete_selected_items')"><i class="fa fa-trash"></i>@lang('common.delete_selected_items')</a></li>
+                      </ul><!--end-dropdown-menu-->
+                  </div><!--end-selected-action-->
+                </div><!--end-pull-left-->
+
+                <div class="box-tools pull-right" style="padding-top:5px;">
+
+                      <a style="margin-top:-23px" href="javascript:void(0)" id='btn_advanced_filter' data-url-parameter='' title="@lang('common.sorting_and_filter')" class="btn btn-sm btn-default {{(Request::get('filter_column'))?'active':''}}">
+                        <i class="fa fa-filter"></i> @lang('common.sorting_and_filter')
+                      </a>
+
+                    <form method='get' style="display:inline-block;width: 260px;" action='{{Request::url()}}'>
+                        <div class="input-group">
+                          <input type="text" name="q" value="{{ Request::get('q') }}" class="form-control input-sm pull-right" placeholder="@lang('common.search')"/>
+                          <div class="input-group-btn">
+                            @if(Request::get('q'))
+                            <button type='button' onclick='location.href="{{Request::url()}}"' title="@lang('common.clean')" class='btn btn-sm btn-warning'><i class='fa fa-ban'></i></button>
+                            @endif
+                            <button type='submit' class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
+                          </div>
+                        </div>
+                    </form>
+
+
+		    <form method='get' id='form-limit-paging' style="display:inline-block" action='{{Request::url()}}'>
+			<div class="input-group">
+			  <select onchange="$('#form-limit-paging').submit()" name='limit' style="width: 59px;"  class='form-control input-sm'>
+				<option {{($limit==5)?'selected':''}} value='5'>5</option>
+				<option {{($limit==10)?'selected':''}} value='10'>10</option>
+				<option {{($limit==20)?'selected':''}} value='20'>20</option>
+				<option {{($limit==25)?'selected':''}} value='25'>25</option>
+				<option {{($limit==50)?'selected':''}} value='50'>50</option>
+				<option {{($limit==100)?'selected':''}} value='100'>100</option>
+				<option {{($limit==200)?'selected':''}} value='200'>200</option>
+
+			  </select>
+			</div>
+		    </form>
+
+                </div>
+
+                <br style="clear:both"/>
+
+              </div>
+
+	    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+            <script>
+            $(function(){
+		 $('#btn_advanced_filter').click(function() {
+                $('#advanced_filter_modal').modal('show');
+              })
+            });
+
+
+            </script>
+
+<!-- MODAL FOR SORTING DATA-->
+            <div class="modal fade" tabindex="-1" role="dialog" id='advanced_filter_modal'>
+              <div class="modal-dialog modal-lg">
+                <div class="modal-content" >
+                  <div class="modal-header">
+                    <button class="close" aria-label="Close" type="button" data-dismiss="modal">
+                    <span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title"><i class='fa fa-filter'></i> @lang('common.filter.dialog_title')</h4>
+                  </div>
+                  {!! Form::open(['route' => ['$ROUTE_NAMED_PREFIX$$MODEL_NAME_PLURAL_CAMEL$.index'], 'method' => 'post']) !!}
+		    <div class="modal-body">
+			$FILTER$
+		    </div>
+                    <div class="modal-footer" align="right">
+                      <button class="btn btn-default" type="button" data-dismiss="modal">@lang('common.close')</button>
+                      <button class="btn btn-default btn-reset" type="reset" onclick='location.href="{{Request::get("lasturl")}}"' >@lang('common.reset')</button>
+                      <button class="btn btn-primary btn-submit" type="submit">@lang('common.submit')</button>
+
+                    </div>
+                 {!! Form::close() !!}
+		</div>
+                <!-- /.modal-content -->
+              </div>
+            </div>
+
+            <div class="box-body">
+                @include('$VIEW_PREFIX$$MODEL_NAME_PLURAL_SNAKE$.table')
+            </div>
+
+	    <div class="pull-right">
+		<?php echo $$MODEL_NAME_PLURAL_CAMEL$->render(); ?>
+		<p style="margin-top:-20px">
+		<?php echo $$MODEL_NAME_PLURAL_CAMEL$->total(); ?>
+		</p>
+	    </div>
+        </div>
+
+    </div>
+@endsection
+

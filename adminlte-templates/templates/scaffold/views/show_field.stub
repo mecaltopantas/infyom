@@ -1,0 +1,16 @@
+<!-- $FIELD_NAME_TITLE$ Field -->
+<!-- <div class="form-group">
+     <div class="control-label col-sm-2">
+    {!! Form::label('$FIELD_NAME$', '$FIELD_NAME_TITLE$:') !!}
+    </div>
+    <div class="col-sm-9">
+    <p>{!! $$MODEL_NAME_CAMEL$->$FIELD_NAME$ !!}</p>
+    </div>
+</div> -->
+
+
+<tr>
+ <td>{!! Form::label('$FIELD_NAME$', '$FIELD_NAME_TITLE$:') !!} </td>
+ <td> {!! $$MODEL_NAME_CAMEL$->$FIELD_NAME$ !!} </td>
+</tr>
+

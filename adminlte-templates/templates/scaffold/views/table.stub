@@ -1,0 +1,138 @@
+<form id="form-table" method="post" action="">
+    <input type="hidden" name="button_name" value="">
+    <input type="hidden" name="_token" value="">
+    <table id="table_dashboard" class="table table-hover table-striped table-bordered">
+        <thead>
+            $FIELD_HEADERS$
+            <th colspan="3">Action</th>
+        </thead>
+        <tbody>
+        @foreach($$MODEL_NAME_PLURAL_CAMEL$ as $$MODEL_NAME_CAMEL$)
+            <tr>
+                $FIELD_BODY$
+                <td>
+                    {!! Form::open(['route' => ['$ROUTE_NAMED_PREFIX$$MODEL_NAME_PLURAL_CAMEL$.destroy', $$MODEL_NAME_CAMEL$->$PRIMARY_KEY_NAME$], 'method' => 'delete']) !!}
+                    <div class='button_action' style="text-align:right">
+                        <a href="{!! route('$ROUTE_NAMED_PREFIX$$MODEL_NAME_PLURAL_CAMEL$.show', [$$MODEL_NAME_CAMEL$->$PRIMARY_KEY_NAME$]) !!}" class='btn btn-xs btn-primary btn-detail' title='Detay Göster'><i class="fa fa-eye"></i></a>
+                        <a href="{!! route('$ROUTE_NAMED_PREFIX$$MODEL_NAME_PLURAL_CAMEL$.edit', [$$MODEL_NAME_CAMEL$->$PRIMARY_KEY_NAME$]) !!}" class='btn btn-xs btn-success btn-edit' title='Düzenle'><i class="fa fa-pencil"></i></a>
+                        {!! Form::button('<i class="fa fa-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-xs btn-warning btn-delete', 'onclick' => "return confirm('Seçtiğiniz kayıt silinecek. Emin misiniz?')"]) !!}
+                    </div>
+                    {!! Form::close() !!}
+                </td>
+            </tr>
+        @endforeach
+        </tbody>
+    </table>
+</form>
+
+
+
+
+            <script>
+            $(function(){
+		 $('#btn_advanced_filter').click(function() {
+                $('#advanced_filter_modal').modal('show');
+              })
+            })
+            </script>
+
+<!-- MODAL FOR SORTING DATA-->
+            <div class="modal fade" tabindex="-1" role="dialog" id='advanced_filter_modal'>
+              <div class="modal-dialog modal-lg">
+                <div class="modal-content" >
+                  <div class="modal-header">
+                    <button class="close" aria-label="Close" type="button" data-dismiss="modal">
+                    <span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title"><i class='fa fa-filter'></i> {{trans("crudbooster.filter_dialog_title")}}</h4>
+                  </div>
+                  <form method='get' action=''>
+                    <div class="modal-body">
+                      <?php foreach(["1" => "name"] as $key => $col):?>
+
+
+                      <div class='form-group'>
+
+                        <div class='row-filter-combo row'>
+
+                          <div class="col-sm-2">
+                            <strong>{{$col['label']}}</strong>
+                          </div>
+
+                          <div class='col-sm-3'>
+                            <select name='filter_column[{{$col["field_with"]}}][type]' data-type='{{$col["type_data"]}}' class="filter-combo form-control">
+                              <option value=''>** {{trans("crudbooster.filter_select_operator_type")}}</option>
+                              @if(in_array($col['type_data'],['string','varchar','text','char']))<option {{ (CRUDBooster::getTypeFilter($col["field_with"]) == 'like')?"selected":"" }} value='like'>{{trans("crudbooster.filter_like")}}</option> @endif
+                              @if(in_array($col['type_data'],['string','varchar','text','char']))<option {{ (CRUDBooster::getTypeFilter($col["field_with"]) == 'not like')?"selected":"" }} value='not like'>{{trans("crudbooster.filter_not_like")}}</option>@endif
+
+                              <option typeallow='all' {{ (CRUDBooster::getTypeFilter($col["field_with"]) == '=')?"selected":"" }} value='='>{{trans("crudbooster.filter_equal_to")}}</option>
+                              @if(in_array($col['type_data'],['int','integer','double','float','decimal']))<option {{ (CRUDBooster::getTypeFilter($col["field_with"]) == '>=')?"selected":"" }} value='>='>{{trans("crudbooster.filter_greater_than_or_equal")}}</option>@endif
+                              @if(in_array($col['type_data'],['int','integer','double','float','decimal']))<option {{ (CRUDBooster::getTypeFilter($col["field_with"]) == '<=')?"selected":"" }} value='<='>{{trans("crudbooster.filter_less_than_or_equal")}}</option>@endif
+                              @if(in_array($col['type_data'],['int','integer','double','float','decimal']))<option {{ (CRUDBooster::getTypeFilter($col["field_with"]) == '<')?"selected":"" }} value='<'>{{trans("crudbooster.filter_less_than")}}</option>@endif
+                              @if(in_array($col['type_data'],['int','integer','double','float','decimal']))<option {{ (CRUDBooster::getTypeFilter($col["field_with"]) == '>')?"selected":"" }} value='>'>{{trans("crudbooster.filter_greater_than")}}</option>@endif
+                              <option typeallow='all' {{ (CRUDBooster::getTypeFilter($col["field_with"]) == '!=')?"selected":"" }} value='!='>{{trans("crudbooster.filter_not_equal_to")}}</option>
+                              <option typeallow='all' {{ (CRUDBooster::getTypeFilter($col["field_with"]) == 'in')?"selected":"" }} value='in'>{{trans("crudbooster.filter_in")}}</option>
+                              <option typeallow='all' {{ (CRUDBooster::getTypeFilter($col["field_with"]) == 'not in')?"selected":"" }} value='not in'>{{trans("crudbooster.filter_not_in")}}</option>
+                              @if(in_array($col['type_data'],['date','time','datetime','int','integer','double','float','decimal','timestamp']))<option {{ (CRUDBooster::getTypeFilter($col["field_with"]) == 'between')?"selected":"" }} value='between'>{{trans("crudbooster.filter_between")}}</option>@endif
+                            </select>
+                          </div><!--END COL_SM_4-->
+
+
+
+                          <div class='col-sm-5'>
+                            <input type='text' class='filter-value form-control' style="{{ (CRUDBooster::getTypeFilter($col["field_with"]) == 'between')?"display:none":"display:block"}}" disabled name='filter_column[{{$col["field_with"]}}][value]' value='{{ (!is_array(CRUDBooster::getValueFilter($col["field_with"])))?CRUDBooster::getValueFilter($col["field_with"]):"" }}'>
+
+                            <div class='row between-group' style="{{ (CRUDBooster::getTypeFilter($col["field_with"]) == 'between')?"display:block":"display:none" }}">
+                              <div class='col-sm-6'>
+                                <div class='input-group'>
+                                  <span class="input-group-addon">From:</span>
+                                  <input
+                                  {{ (CRUDBooster::getTypeFilter($col["field_with"]) != 'between')?"disabled":"" }}
+                                  type='text'
+                                  class='filter-value-between form-control {{ (in_array($col["type_data"],["date","time","datetime","timestamp"]))?"datepicker":"" }}' readonly placeholder='{{$col["label"]}} {{trans("crudbooster.filter_from")}}' name='filter_column[{{$col["field_with"]}}][value][]' value='<?php
+                                  $value = CRUDBooster::getValueFilter($col["field_with"]);
+                                  echo (CRUDBooster::getTypeFilter($col["field_with"])=='between')?$value[0]:"";
+                                  ?>'>
+                                </div>
+                              </div>
+                              <div class='col-sm-6'>
+                                <div class='input-group'>
+                                  <span class="input-group-addon">To:</span>
+                                  <input
+                                  {{ (CRUDBooster::getTypeFilter($col["field_with"]) != 'between')?"disabled":"" }}
+                                  type='text'
+                                  class='filter-value-between form-control {{ (in_array($col["type_data"],["date","time","datetime","timestamp"]))?"datepicker":"" }}' readonly placeholder='{{$col["label"]}} {{trans("crudbooster.filter_to")}}' name='filter_column[{{$col["field_with"]}}][value][]' value='<?php
+                                  $value = CRUDBooster::getValueFilter($col["field_with"]);
+                                  echo (CRUDBooster::getTypeFilter($col["field_with"])=='between')?$value[1]:"";
+                                  ?>'>
+                                </div>
+                              </div>
+                            </div>
+                          </div><!--END COL_SM_6-->
+
+
+                          <div class='col-sm-2'>
+                              <select class='form-control' name='filter_column[{{$col["field_with"]}}][sorting]'>
+                                  <option value=''>** Sorting</option>
+                                  <option {{ (CRUDBooster::getSortingFilter($col["field_with"]) == 'asc')?"selected":"" }} value='asc'>{{trans("crudbooster.filter_ascending")}}</option>
+                                  <option {{ (CRUDBooster::getSortingFilter($col["field_with"]) == 'desc')?"selected":"" }} value='desc'>{{trans("crudbooster.filter_descending")}}</option>
+                              </select>
+                          </div><!--END_COL_SM_2-->
+
+                        </div>
+
+                      </div>
+                      <?php endforeach;?>
+
+                    </div>
+                    <div class="modal-footer" align="right">
+                      <button class="btn btn-default" type="button" data-dismiss="modal">{{trans("crudbooster.button_close")}}</button>
+                      <button class="btn btn-default btn-reset" type="reset" onclick='location.href="{{Request::get("lasturl")}}"' >{{trans("crudbooster.button_reset")}}</button>
+                      <button class="btn btn-primary btn-submit" type="submit">{{trans("crudbooster.button_submit")}}</button>
+                    </div>
+                    <input type="hidden" name="lasturl" value="{{Request::get('lasturl')?:Request::fullUrl()}}">
+                  </form>
+                </div>
+                <!-- /.modal-content -->
+              </div>
+            </div>
+

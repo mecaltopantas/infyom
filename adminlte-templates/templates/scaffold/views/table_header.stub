@@ -1,0 +1,29 @@
+
+    <?php
+	$sort_column = Request::get('filter_column');
+	echo "<th width='auto'>";
+
+	if(isset($sort_column['$FIELD_NAME$'])) {
+	  switch($sort_column['$FIELD_NAME$']['sorting']) {
+	    case 'asc':
+	      $url = urlFilterColumn('$FIELD_NAME$','sorting','desc');
+	      echo "<a href='$url' title='Bu alana göre sıralamak için tıkla'>" . trans('$MODEL_NAME_HUMAN$/attribute_name.$FIELD_NAME_TITLE$')  . " <i class='fa fa-sort-desc'></i></a>";
+	      break;
+	    case 'desc':
+	      $url = urlFilterColumn('$FIELD_NAME$','sorting','asc');
+	      echo "<a href='$url' title='Bu alana göre sıralamak için tıkla'>" . trans('$MODEL_NAME_HUMAN$/attribute_name.$FIELD_NAME_TITLE$')  . " <i class='fa fa-sort-asc'></i></a>";
+	      break;
+	    default:
+	      $url = urlFilterColumn('$FIELD_NAME$','sorting','asc');
+	      echo "<a href='$url' title='Bu alana göre sıralamak için tıkla'>" . trans('$MODEL_NAME_HUMAN$/attribute_name.$FIELD_NAME_TITLE$')  . "  <i class='fa fa-sort'></i></a>";
+	      break;
+	  }
+	}else{
+	      $url = urlFilterColumn('$FIELD_NAME$','sorting','asc');
+	      echo "<a href='$url' title='Bu alana göre sıralamak için tıkla'>" . trans('$MODEL_NAME_HUMAN$/attribute_name.$FIELD_NAME_TITLE$')  . " <i class='fa fa-sort'></i></a>";
+	}
+
+echo "</th>";
+
+
+?>

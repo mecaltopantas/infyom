@@ -1,0 +1,10 @@
+<!-- $FIELD_NAME_TITLE$ Field -->
+<div class="form-group header-group-0">
+    <div class="control-label col-sm-2">
+	{!! Form::label('$FIELD_NAME$', trans('$MODEL_NAME_HUMAN$/attribute_name.$FIELD_NAME_TITLE$')) !!}
+	{!!('$REQUIRED$')?"<span class='text-danger' title='This field is required'>*</span>":"" !!}
+    </div>
+    <div class="col-sm-9">
+	{!! Form::select('$FIELD_NAME$', $INPUT_ARR$, null, ['class' => 'form-control']) !!}
+    </div>
+</div>

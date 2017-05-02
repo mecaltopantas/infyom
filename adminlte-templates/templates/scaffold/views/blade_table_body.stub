@@ -1,0 +1,33 @@
+<table class="table table-responsive" id="$MODEL_NAME_PLURAL_CAMEL$-table">
+    <thead>
+        $FIELD_HEADERS$
+        <th colspan="3" style='text-align:right;'>@lang('common.crud_processes')</th>
+    </thead>
+    <tbody>
+    @foreach($$MODEL_NAME_PLURAL_CAMEL$ as $$MODEL_NAME_CAMEL$)
+        <tr>
+            $FIELD_BODY$
+            <td>
+                {!! Form::open(['route' => ['$ROUTE_NAMED_PREFIX$$MODEL_NAME_PLURAL_CAMEL$.destroy', $$MODEL_NAME_CAMEL$->$PRIMARY_KEY_NAME$], 'method' => 'delete']) !!}
+                <div class='button_action' style='text-align:right;'>
+                    <a href="{!! route('$ROUTE_NAMED_PREFIX$$MODEL_NAME_PLURAL_CAMEL$.show', [$$MODEL_NAME_CAMEL$->$PRIMARY_KEY_NAME$]) !!}" class='btn btn-xs btn-primary btn-detail' title='Detay Göster'><i class="fa fa-eye"></i></a>
+                    <a href="{!! route('$ROUTE_NAMED_PREFIX$$MODEL_NAME_PLURAL_CAMEL$.edit', [$$MODEL_NAME_CAMEL$->$PRIMARY_KEY_NAME$]) !!}" class='btn btn-xs btn-success btn-edit' title='Düzenle'><i class="fa fa-pencil"></i></a>
+
+                    {!! Form::button('<i class="fa fa-trash"></i>', ['class' => 'btn btn-xs btn-warning btn-delete', 'onclick' => "swal({
+				title: 'Silmek istediğinizden emin misiniz ?',
+				text: 'Bu veriyi kurtarmak mümkün olmayacak!',
+				type: 'warning',
+				showCancelButton: true,
+				confirmButtonColor: '#ff0000',
+				confirmButtonText: 'Evet',
+				cancelButtonText: 'Hayır'}).then(function () {
+				form.submit(); })
+
+	" ]) !!}
+                </div>
+                {!! Form::close() !!}
+            </td>
+        </tr>
+    @endforeach
+    </tbody>
+</table>

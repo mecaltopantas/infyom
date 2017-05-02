@@ -1,0 +1,47 @@
+<div class='form-group'>
+
+  <div class='row-filter-combo row'>
+
+    <div class="col-sm-2">
+      <strong>label</strong>
+    </div>
+
+    <div class='col-sm-3'>
+      <select name='filter_column[field_with][type]' data-type='type_data' class="filter-combo form-control">
+	<option value=''>** @lang('common.filter.select_operator_type')</option>
+	@if(in_array('type_data',['string','varchar','text','char']))<option value='like'>@lang('common.filter.like')</option> @endif
+	@if(in_array('type_data',['string','varchar','text','char']))<option value='not like'>@lang('common.filter.not_like')</option>@endif
+
+	<option typeallow='all' value='='>@lang('common.filter.equal_to')</option>
+	@if(in_array('type_data',['int','integer','double','float','decimal']))<option value='>='>@lang('common.filter.greater_than_or_equal')</option>@endif
+	@if(in_array('type_data',['int','integer','double','float','decimal']))<option value='<='>@lang('common.filter.less_than_or_equal')</option>@endif
+	@if(in_array('type_data',['int','integer','double','float','decimal']))<option value='<'>@lang('common.filter.less_than')</option>@endif
+	@if(in_array('type_data',['int','integer','double','float','decimal']))<option value='>'>@lang('common.filter.greater_than')</option>@endif
+	<option typeallow='all' value='!='>@lang('common.filter.not_equal_to')</option>
+	<option typeallow='all' value='in'>@lang('common.filter.in')</option>
+	<option typeallow='all' value='not in'>@lang('common.filter.not_in')</option>
+	<option typeallow='all' value='between'>@lang('common.filter.between')</option>
+	@if(in_array('type_data',['date','time','datetime','int','integer','double','float','decimal','timestamp']))<option value='between'>@lang('common.filter.between')</option>@endif
+      </select>
+    </div><!--END COL_SM_4-->
+
+
+    <div class='col-sm-5'>
+      <input type='text' class='filter-value form-control' name='filter_column[field_with][value]' >
+
+
+    </div><!--END COL_SM_6-->
+
+
+    <div class='col-sm-2'>
+	<select class='form-control' name='filter_column[field_with][sorting]'>
+	    <option value=''>** @lang('common.filter.sorting')</option>
+	    <option value='asc'>@lang('common.filter.ascending')</option>
+	    <option value='desc'>@lang('common.filter.descending')</option>
+	</select>
+    </div><!--END_COL_SM_2-->
+
+  </div>
+
+</div>
+

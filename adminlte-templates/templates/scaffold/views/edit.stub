@@ -1,0 +1,41 @@
+@extends('layouts.app')
+
+@section('content')
+
+    <section class="content-header">
+        <h1>
+             <i class="fa fa-users"></i> &nbsp; {{ trans('$MODEL_NAME_HUMAN$/edit.$MODEL_NAME_HUMAN$') }} | @lang('common.edit')
+        </h1>
+   </section>
+
+    <section id="content_section" class="content">
+	<div>
+	    <p>
+		<a title="Return" href="{!! route('$ROUTE_NAMED_PREFIX$$MODEL_NAME_PLURAL_CAMEL$.index') !!}"><i class="fa fa-chevron-circle-left "></i> &nbsp; @lang('common.data_list') ({{ trans('$MODEL_NAME_HUMAN$/edit.$MODEL_NAME_HUMAN$') }})
+		</a>
+	    </p>
+
+	    @include('adminlte-templates::common.errors')
+
+	    <div class="panel panel-default">
+		<div class="panel-heading">
+		    <strong><i class="fa fa-users"></i> &nbsp; {{ trans('$MODEL_NAME_HUMAN$/edit.$MODEL_NAME_HUMAN$') }} | @lang('common.edit')
+		    </strong>
+		</div>
+
+		<div class="panel-body"  style="padding:20px 0px 0px 0px">
+
+		    {!! Form::model($$MODEL_NAME_CAMEL$, ['route' => ['$ROUTE_NAMED_PREFIX$$MODEL_NAME_PLURAL_CAMEL$.update', $$MODEL_NAME_CAMEL$->$PRIMARY_KEY_NAME$], 'method' => 'patch' , 'class' => 'form-horizontal']) !!}
+
+		    <div class="box-body" id="parent-form-area">
+
+		    @include('$VIEW_PREFIX$$MODEL_NAME_PLURAL_SNAKE$.fields')
+
+		    {!! Form::close() !!}
+
+		    </div>
+		</div>
+	     </div>
+	</div>
+    </section>
+@endsection
