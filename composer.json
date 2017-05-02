@@ -1,0 +1,14 @@
+{
+    "name": "infyom/custom",
+    "type": "library",
+    "description": "Infyom custom generator",
+    "keywords": ["crud","admin"],
+    "homepage": "https://github.com/mecaltopantas/infyom",
+    "license": "MIT",
+    "authors": [
+        {
+            "email": "mecal@marifetler.com",
+            "role": "Developer"
+        }
+    ]
+}
